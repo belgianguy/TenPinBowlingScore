@@ -6,8 +6,12 @@ public class Frame {
     private FrameState frameState;
     private final int frameNumber;
 
-    public Frame(final int frameNumber, final String frameText) {
+    public Frame(final int frameNumber, final String frameString) {
         this.frameNumber = frameNumber;
+        parseFrameString(frameNumber, frameString);
+    }
+
+    private void parseFrameString(final int frameNumber, final String frameText) {
         for(char frameChar : frameText.toCharArray()) {
             if(9 == frameNumber) {
                 frameState = FrameState.TENTH_FRAME;
