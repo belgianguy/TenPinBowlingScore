@@ -27,7 +27,7 @@ public class Game {
             gameScore += frameScore;
             System.out.printf(Constants.END_FRAME_OUTPUT, frameState, frameScore, gameScore);
         }
-        System.out.printf((Constants.END_GAME_OUTPUT), gameString, gameScore);
+        System.out.printf(Constants.END_GAME_OUTPUT, gameString, gameScore);
         return gameScore;
     }
 
