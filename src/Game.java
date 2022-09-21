@@ -33,7 +33,7 @@ public class Game {
 
     private int calculateSpareFrame(final Frame frame) {
         int frameScore;
-        frameScore = frame.calculateScore();
+        frameScore = Constants.BONUS_POINTS;
         int nextFrameNumber = frame.getFrameNumber() + 1;
         if (nextFrameNumber < frameList.size()) {
             final Frame firstFrameAfter = frameList.get(nextFrameNumber);
@@ -44,12 +44,12 @@ public class Game {
 
     private int calculateStrikeFrame(final Frame frame) {
         int frameScore;
-        frameScore = frame.calculateScore();
+        frameScore = Constants.BONUS_POINTS;
         int nextFrameNumber = frame.getFrameNumber() + 1;
         if (nextFrameNumber < frameList.size()) {
             final Frame firstFrameAfter = frameList.get(nextFrameNumber);
             if(FrameState.SPARE.equals(firstFrameAfter.getFrameState())) {
-                frameScore += firstFrameAfter.calculateScore();
+                frameScore += Constants.BONUS_POINTS;
             } else if (firstFrameAfter.getNumberOfRolls() >= 2) {
                 frameScore += firstFrameAfter.getValueOfFirstRoll();
                 frameScore += firstFrameAfter.getValueOfSecondRoll();

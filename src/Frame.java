@@ -28,9 +28,6 @@ public class Frame {
     }
 
     public int calculateScore() {
-        if(FrameState.SPARE.equals(frameState)) {
-            return Constants.BONUS_POINTS;
-        }
 
         int frameScore = 0;
         for(final Roll roll : rollList) {
