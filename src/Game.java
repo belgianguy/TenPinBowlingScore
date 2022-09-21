@@ -25,9 +25,9 @@ public class Game {
                 frameScore = calculateSpareFrame(frame);
             }
             gameScore += frameScore;
-            System.out.println(frameState + " FRAME " + frameScore + " " + gameScore);
+            System.out.printf(Constants.END_FRAME_OUTPUT, frameState, frameScore, gameScore);
         }
-        System.out.println("GAME [" + gameString + "] :::: SCORE " + gameScore);
+        System.out.printf((Constants.END_GAME_OUTPUT), gameString, gameScore);
         return gameScore;
     }
 

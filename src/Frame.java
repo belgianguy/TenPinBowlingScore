@@ -11,9 +11,9 @@ public class Frame {
         for(char frameChar : frameText.toCharArray()) {
             if(9 == frameNumber) {
                 frameState = FrameState.TENTH_FRAME;
-            } else if('X' == frameChar) {
+            } else if(Constants.STRIKE_CHAR == frameChar) {
                 frameState = FrameState.STRIKE;
-            } else if ('/' == frameChar) {
+            } else if (Constants.SPARE_CHAR == frameChar) {
                 frameState = FrameState.SPARE;
             } else {
                 frameState = FrameState.REGULAR;
