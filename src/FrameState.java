@@ -1,3 +1,3 @@
 public enum FrameState {
-    REGULAR, SPARE, STRIKE;
+    REGULAR, SPARE, STRIKE, TENTH_FRAME;
 }

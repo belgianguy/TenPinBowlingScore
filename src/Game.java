@@ -12,52 +12,57 @@ public class Game {
 
     public int calculateScore() {
         int gameScore = 0;
-        for(final Frame frame : frameList) {
-            final FrameState frameState = frame.getFrameState();
-            System.out.println(frameState.name());
-            if(frame.getFrameNumber() < 9) {
-                if (FrameState.REGULAR.equals(frameState)) {
-                    gameScore += frame.calculateScore();
-                    System.out.println("REGULAR FRAME " + frame.getFrameNumber() + " " + frame.calculateScore() + " " + gameScore);
-                } else if (FrameState.STRIKE.equals(frameState)) {
-                    int score = frame.calculateScore();
-                    int nextFrameNumber = frame.getFrameNumber() + 1;
-                    if (nextFrameNumber < frameList.size()) {
-                        final Frame firstFrameAfter = frameList.get(nextFrameNumber);
-                        if(FrameState.SPARE.equals(firstFrameAfter.getFrameState())) {
-                            score += firstFrameAfter.calculateScore();
-                        } else if (firstFrameAfter.getNumberOfRolls() >= 2) {
-                            score += firstFrameAfter.getValueOfFirstRoll();
-                            score += firstFrameAfter.getValueOfSecondRoll();
-                        } else if (firstFrameAfter.getNumberOfRolls() == 1) {
-                            nextFrameNumber = nextFrameNumber + 1;
-                            if (nextFrameNumber < frameList.size()) {
-                                final Frame secondFrameAfter = frameList.get(nextFrameNumber);
-                                score += firstFrameAfter.getValueOfFirstRoll();
-                                score += secondFrameAfter.getValueOfFirstRoll();
-                            }
-                        }
-                        gameScore += score;
-                        System.out.println("STRIKE FRAME " + frame.getFrameNumber() + " " + score + " " + gameScore);
-                    }
-                } else if(FrameState.SPARE.equals(frameState)) {
-                    int score = frame.calculateScore();
-                    int nextFrameNumber = frame.getFrameNumber() + 1;
-                    if (nextFrameNumber < frameList.size()) {
-                        final Frame firstFrameAfter = frameList.get(nextFrameNumber);
-                        score += firstFrameAfter.getValueOfFirstRoll();
-                    }
-                    gameScore += score;
-                    System.out.println("SPARE FRAME " + frame.getFrameNumber() + " " + score + " " + gameScore);
-                }
-            } else {
-                gameScore += frame.calculateScore();
-                System.out.println("10th FRAME " + frame.getFrameNumber() + " " + frame.calculateScore() + " " + gameScore);
-            }
 
+        for(final Frame frame : frameList) {
+            int frameScore = 0;
+            final FrameState frameState = frame.getFrameState();
+
+            if (FrameState.REGULAR.equals(frameState) || FrameState.TENTH_FRAME.equals(frameState)) {
+                frameScore = frame.calculateScore();
+            } else if (FrameState.STRIKE.equals(frameState)) {
+                frameScore = calculateStrikeFrame(frame);
+            } else if(FrameState.SPARE.equals(frameState)) {
+                frameScore = calculateSpareFrame(frame);
+            }
+            gameScore += frameScore;
+            System.out.println(frameState + " FRAME " + frameScore + " " + gameScore);
         }
-        System.out.println("GAME " + gameString + " SCORE " + gameScore);
+        System.out.println("GAME [" + gameString + "] :::: SCORE " + gameScore);
         return gameScore;
+    }
+
+    private int calculateSpareFrame(final Frame frame) {
+        int frameScore;
+        frameScore = frame.calculateScore();
+        int nextFrameNumber = frame.getFrameNumber() + 1;
+        if (nextFrameNumber < frameList.size()) {
+            final Frame firstFrameAfter = frameList.get(nextFrameNumber);
+            frameScore += firstFrameAfter.getValueOfFirstRoll();
+        }
+        return frameScore;
+    }
+
+    private int calculateStrikeFrame(final Frame frame) {
+        int frameScore;
+        frameScore = frame.calculateScore();
+        int nextFrameNumber = frame.getFrameNumber() + 1;
+        if (nextFrameNumber < frameList.size()) {
+            final Frame firstFrameAfter = frameList.get(nextFrameNumber);
+            if(FrameState.SPARE.equals(firstFrameAfter.getFrameState())) {
+                frameScore += firstFrameAfter.calculateScore();
+            } else if (firstFrameAfter.getNumberOfRolls() >= 2) {
+                frameScore += firstFrameAfter.getValueOfFirstRoll();
+                frameScore += firstFrameAfter.getValueOfSecondRoll();
+            } else if (firstFrameAfter.getNumberOfRolls() == 1) {
+                nextFrameNumber = nextFrameNumber + 1;
+                if (nextFrameNumber < frameList.size()) {
+                    final Frame secondFrameAfter = frameList.get(nextFrameNumber);
+                    frameScore += firstFrameAfter.getValueOfFirstRoll();
+                    frameScore += secondFrameAfter.getValueOfFirstRoll();
+                }
+            }
+        }
+        return frameScore;
     }
 
     private void parseGameString(final String gameString) {

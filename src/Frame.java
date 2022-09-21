@@ -4,12 +4,14 @@ import java.util.List;
 public class Frame {
     private final List<Roll> rollList = new ArrayList<>();
     private FrameState frameState;
-    private int frameNumber;
+    private final int frameNumber;
 
     public Frame(final int frameNumber, final String frameText) {
         this.frameNumber = frameNumber;
         for(char frameChar : frameText.toCharArray()) {
-            if('X' == frameChar) {
+            if(9 == frameNumber) {
+                frameState = FrameState.TENTH_FRAME;
+            } else if('X' == frameChar) {
                 frameState = FrameState.STRIKE;
             } else if ('/' == frameChar) {
                 frameState = FrameState.SPARE;
@@ -52,7 +54,7 @@ public class Frame {
 
     public int getValueOfSecondRoll() {
         if(rollList.size() < 2) {
-            throw new IllegalStateException("No such roll index!");
+            throw new IllegalStateException(Constants.NO_SUCH_ROLL_INDEX);
         }
         final Roll roll = rollList.get(1);
         return roll.calculateScore();
